@@ -15,7 +15,7 @@ Dokumen ini merangkum seluruh hasil pengerjaan Tes Teknis (TTG) yang mencakup pe
 ### **Soal 1: Front-End - Membuat Halaman Web Sederhana**
 * **Teknologi**: HTML, CSS, dan JavaScript.
 * **Deskripsi**: Membangun antarmuka halaman web fungsional sesuai dengan kriteria tugas front-end yang diberikan.
-* **Fitur**: Tampilan yang terstruktur menggunakan CSS dan interaktivitas dinamis menggunakan JavaScript.
+* **Fitur**: Tampilan terstruktur menggunakan CSS dan manipulasi DOM menggunakan JavaScript untuk interaktivitas.
 
 ### **Soal 2: Back-End API Pengguna**
 Sistem manajemen data pengguna berbasis REST API menggunakan arsitektur Node.js.
@@ -23,11 +23,11 @@ Sistem manajemen data pengguna berbasis REST API menggunakan arsitektur Node.js.
 * **Library & Dependensi**:
     * `express`: Framework web utama untuk menangani routing dan server.
     * `mongoose`: ODM (Object Data Modeling) untuk mendefinisikan skema data dan mengelola koneksi database.
-    * `express.json()`: Middleware untuk memproses data body berformat JSON.
-* **Fitur API**:
+    * `express.json()`: Middleware wajib untuk memproses data body berformat JSON.
+* **Fitur API (Full CRUD)**:
     * **Create (POST)**: Menambah pengguna baru dengan validasi **Email Unik**.
     * **Read (GET)**: Mengambil seluruh daftar pengguna atau data spesifik berdasarkan ID.
-    * **Delete (DELETE)**: Menghapus data pengguna dari database berdasarkan ID.
+    * **Delete (DELETE)**: Menghapus data pengguna dari database secara permanen berdasarkan ID.
 
 ### **Soal 3: Problem Solving - Cari Angka Yang Hilang**
 * **Bahasa**: JavaScript.
@@ -56,11 +56,12 @@ Atau jalankan secara lokal:
 ### **2. Konfigurasi Database & API (Soal 2)**
 * **Prasyarat**: Pastikan **MongoDB** lokal aktif pada port `27017`.
 * **Instalasi**: Masuk ke terminal folder `soal2-backend`.
-* **Setup**: Jalankan `npm install` untuk memasang `express` & `mongoose`.
-* **Running**: Jalankan `node index.js`. Server akan aktif di `http://localhost:3000`.
+* **Setup Framework**: Jalankan perintah `npm install` untuk memasang **express** dan **mongoose**.
+* **Running Server**: Jalankan perintah `node index.js`. Server akan aktif di `http://localhost:3000`.
 
 ### **3. Dokumentasi Pengujian API (Postman)**
-* **Simulasi POST (Tambah User)**:
+
+* **Tambah User (POST)**:
     * **URL**: `http://localhost:3000/users`
     * **Method**: `POST`
     * **Body (JSON)**:
@@ -70,10 +71,17 @@ Atau jalankan secara lokal:
         "email": "hambali.fitrianto001@gmail.com"
       }
       ```
-    * **Respon Sukses**: HTTP Status `201 Created`.
+    * **Validasi**: Jika email sudah ada, respon: `400 Bad Request` | `{"message": "Email sudah dipakai!"}`.
 
-* **Simulasi POST (Validasi Email Duplikat)**:
-    * **Respon Error**: HTTP Status `400 Bad Request` | `{"message": "Email sudah dipakai!"}`.
+* **Ambil Data (GET)**:
+    * **URL**: `http://localhost:3000/users`
+    * **Method**: `GET`
+    * **Fungsi**: Menampilkan daftar seluruh user yang terdaftar di database **MongoDB**.
+
+* **Hapus Data (DELETE)**:
+    * **URL**: `http://localhost:3000/users/[ID_USER]`
+    * **Method**: `DELETE`
+    * **Fungsi**: Menghapus data spesifik berdasarkan Object ID dari database.
 
 ---
 **Hambali Fitrianto** - Developer Test (2026)
