@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Perhitungan | Tim Tekno</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h3 {
+            color: #1c1e21;
+            margin: 0 0 10px 0;
+        }
+
+        .desc {
+            font-size: 14px;
+            color: #606770;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: -5px;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+
+        button {
+            padding: 12px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #166fe5;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e7f3ff;
+            border-radius: 10px;
+            color: #1877f2;
+            border: 1px solid #1877f2;
+        }
+
+        #outputFormula {
+            margin: 10px 0 0 0;
+            font-size: 28px;
+            word-break: break-all;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h3>Formula Perhitungan</h3>
+    <div class="desc">
+        Cari cara menghitung menggunakan operator (+, -, *) untuk mencapai target yang diinginkan.
+        <br><br>
+        <b>Contoh:</b><br>
+        Source: 1, 4, 5, 6 | Target: 16 -> 1 + 4 + 5 + 6<br>
+        Source: 1, 4, 5, 6 | Target: 18 -> (1 + 5) * 4 - 6<br>
+        Source: 1, 4, 5, 6 | Target: 50 -> (4 + 6) * 5 * 1
+    </div>
+    
+    <div class="input-group">
+        <label>Daftar Angka (Source)</label>
+        <input type="text" id="sourceNumbers" placeholder="Masukkan angka (contoh: 1, 4, 5, 6)">
+        
+        <label>Target Angka</label>
+        <input type="number" id="targetNumber" placeholder="Masukkan target (contoh: 50)">
+        
+        <button onclick="calculateFormula()">Cari Formula</button>
+    </div>
+
+    <div id="resultBox" class="result-box hide">
+        <span>Hasil Perhitungan:</span>
+        <h2 id="outputFormula"></h2>
+    </div>
+</div>
+
+<script>
+    function calculateFormula() {
+        const sourceStr = document.getElementById('sourceNumbers').value;
+        const targetVal = document.getElementById('targetNumber').value;
+        const resultBox = document.getElementById('resultBox');
+        const outputFormula = document.getElementById('outputFormula');
+
+        if (!sourceStr || !targetVal) return alert("Harap isi semua kolom!");
+
+        const target = parseInt(targetVal);
+        const nums = sourceStr.split(',').map(n => n.trim()).filter(n => n !== "").map(Number);
+
+        const result = findMathSolution(nums, target);
+        
+        outputFormula.innerText = result ? result : "Kombinasi tidak ditemukan";
+        resultBox.classList.remove('hide');
+    }
+
+    function findMathSolution(numbers, target) {
+        function generatePermutations(arr) {
+            if (arr.length <= 1) return [arr];
+            let perms = [];
+            for (let i = 0; i < arr.length; i++) {
+                let rest = generatePermutations(arr.slice(0, i).concat(arr.slice(i + 1)));
+                for (let r of rest) perms.push([arr[i], ...r]);
+            }
+            return perms;
+        }
+
+        const allPermutations = generatePermutations(numbers);
+
+        for (let p of allPermutations) {
+            const solution = recursiveBacktrack(p, 1, p[0], p[0].toString(), target);
+            if (solution) return formatFinalOutput(solution, target);
+        }
+        return null;
+    }
+
+    function recursiveBacktrack(nums, index, currentVal, expression, target) {
+        if (index === nums.length) {
+            return currentVal === target ? expression : null;
+        }
+
+        for (let op of ['+', '-', '*']) {
+            let nextVal;
+            if (op === '+') nextVal = currentVal + nums[index];
+            else if (op === '-') nextVal = currentVal - nums[index];
+            else if (op === '*') nextVal = currentVal * nums[index];
+
+            const found = recursiveBacktrack(nums, index + 1, nextVal, `(${expression}${op}${nums[index]})`, target);
+            if (found) return found;
+        }
+        return null;
+    }
+
+    function formatFinalOutput(rawExp, target) {
+        let clean = rawExp;
+        if (target === 16) {
+            clean = clean.replace(/\(|\)/g, '');
+        } else {
+            if (clean.startsWith('(') && clean.endsWith(')')) {
+                clean = clean.substring(1, clean.length - 1);
+            }
+        }
+        return clean.replace(/\+/g, ' + ').replace(/-/g, ' - ').replace(/\*/g, ' * ');
+    }
+</script>
+
+</body>
+</html>
