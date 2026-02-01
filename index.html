@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Tes Teknis - Hambali Fitrianto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f3f4f6; }
+        .card:hover { transform: translateY(-5px); transition: 0.3s; }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-10 text-center">
+            <div class="mb-2">
+                <span class="px-4 py-1 bg-blue-600 text-white text-sm font-bold rounded-full uppercase tracking-widest">Kandidat</span>
+            </div>
+            <h1 class="text-4xl font-extrabold text-gray-800">Hambali Fitrianto</h1>
+            <p class="text-xl text-gray-600 mt-2">Dashboard Hasil Tes Teknis (TTG)</p>
+            <div class="w-24 h-1 bg-blue-500 mx-auto mt-4 rounded-full"></div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <a href="soal1-frontend/index.html" class="card p-6 bg-white rounded-xl shadow-md border-l-4 border-blue-500 block">
+                <h2 class="text-xl font-bold text-blue-600">Soal 1: Front-End</h2>
+                <p class="text-gray-500 mt-2">Tampilan antarmuka pengguna (UI) responsif sesuai spesifikasi desain.</p>
+            </a>
+
+            <div class="card p-6 bg-white rounded-xl shadow-md border-l-4 border-green-500">
+                <h2 class="text-xl font-bold text-green-600">Soal 2: Back-End API</h2>
+                <p class="text-gray-500 mt-2">API Pengguna menggunakan <strong>Node.js</strong>, framework <strong>Express</strong>, dan <strong>MongoDB</strong>.</p>
+                <div class="flex gap-2 mt-3">
+                    <span class="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">Express Framework</span>
+                    <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded">Running on :3000</span>
+                </div>
+            </div>
+
+            <a href="soal3-angka-hilang/index.html" class="card p-6 bg-white rounded-xl shadow-md border-l-4 border-yellow-500 block">
+                <h2 class="text-xl font-bold text-yellow-600">Soal 3: Angka Hilang</h2>
+                <p class="text-gray-500 mt-2">Logika algoritma efisien untuk mencari angka yang tidak ada dalam deretan array.</p>
+            </a>
+
+            <a href="soal4-formula-kalkulasi/index.html" class="card p-6 bg-white rounded-xl shadow-md border-l-4 border-red-500 block">
+                <h2 class="text-xl font-bold text-red-600">Soal 4: Formula Kalkulasi</h2>
+                <p class="text-gray-500 mt-2">Implementasi logika perhitungan matematika dinamis berdasarkan input pengguna.</p>
+            </a>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-400 text-sm">
+            &copy; 2026 - Dikembangkan oleh <strong>Hambali Fitrianto</strong> untuk Tes Teknis TTG
+        </footer>
+    </div>
+</body>
+</html>
