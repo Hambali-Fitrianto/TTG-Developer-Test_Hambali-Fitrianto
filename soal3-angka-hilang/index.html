@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Angka Hilang | Tim Tekno</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        h3 {
+            margin: 0 0 10px 0;
+            color: #1c1e21;
+        }
+
+        .desc {
+            font-size: 14px;
+            color: #606770;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+
+        button {
+            padding: 12px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background: #166fe5;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e7f3ff;
+            border-radius: 10px;
+            color: #1877f2;
+            border: 1px solid #1877f2;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #outputValue {
+            margin: 5px 0 0 0;
+            font-size: 36px;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h3>Cari Angka Hilang</h3>
+    <p class="desc">
+        Masukkan deret angka berurutan yang dipisahkan koma.<br>
+        Contoh: <b>3, 0, 2, 4</b> atau <b>3106, 3102, 3104, 3105, 3107...</b>
+    </p>
+    
+    <div class="input-group">
+        <input type="text" id="inputArray" placeholder="Contoh: 3, 0, 2, 4" autofocus>
+        <button onclick="prosesAngka()">Cari Angka</button>
+    </div>
+
+    <div id="resultBox" class="result-box hide">
+        <span>Angka yang hilang:</span>
+        <h1 id="outputValue">0</h1>
+    </div>
+</div>
+
+<script>
+    function prosesAngka() {
+        const inputStr = document.getElementById('inputArray').value;
+        const resultBox = document.getElementById('resultBox');
+        const outputValue = document.getElementById('outputValue');
+
+        const arr = inputStr.split(',')
+                            .map(item => item.trim())
+                            .filter(item => item !== "")
+                            .map(Number);
+
+        if (arr.length < 2 || arr.some(isNaN)) {
+            alert("Harap masukkan deret angka yang valid dipisahkan koma!");
+            return;
+        }
+
+        const min = Math.min(...arr);
+        const max = Math.max(...arr);
+        const n = max - min + 1;
+        const expectedSum = (n * (min + max)) / 2;
+        const actualSum = arr.reduce((total, num) => total + num, 0);
+        const missing = expectedSum - actualSum;
+        
+        outputValue.innerText = missing === 0 ? "Tidak ada" : missing;
+        resultBox.classList.remove('hide');
+    }
+
+    document.getElementById("inputArray").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            prosesAngka();
+        }
+    });
+</script>
+
+</body>
+</html>
